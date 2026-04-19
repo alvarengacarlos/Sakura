@@ -1,0 +1,82 @@
+@startuml
+left to right direction
+
+person C [
+<b>Cliente</b>
+[Person]
+---
+Fornecedor dos dados.
+]
+
+rectangle W [
+<b>WhatsApp</b>
+[Software System]
+---
+Serviços do Whatsapp.
+]
+
+rectangle Sakura as S {
+    rectangle Backend {
+        rectangle G [
+        <b>Gateway API</b>
+        [Component: Spring Boot MVC]
+        ---
+        Recebe mensagens do cliente.
+        ]
+
+        rectangle IA [
+        <b>Image Analyzer</b>
+        [Component: Spring Boot Scheduler]
+        ---
+        Analiza imagens e converte para texto.
+        ]
+
+        rectangle DA [
+        <b>Data Analyzer</b>
+        [Component: Spring Boot Scheduler]
+        ---
+        Analiza dados convertendo em informação.
+        ]
+
+        rectangle N [
+        <b>Notifier</b>
+        [Component: Spring Boot Scheduler]
+        ---
+        Envia informações para cliente.
+        ]
+    }
+
+    database DB [
+    <b>Database</b>
+    [Container: Postgres]
+    ---
+    all registries.
+    ]
+
+    database FS [
+    <b>Filesystem</b>
+    [Container: Filesystem]
+    ---
+    Imagens
+    ]
+}
+
+rectangle VIA [
+<b>Vision LLM</b>
+[Software System]
+---
+Serviços de IA para imagem.
+]
+
+C ..> W : Envia imagem\ndo Cupom Fiscal
+W ..> G : Repassa conteúdo
+G ..> DB : Salva metadados do conteúdo
+G ..> FS : Salva contéudo
+IA ..> DB : Salva e lê dados
+IA ..> FS : Lê dados
+IA ..> VIA : Transforma imagem em texto usando
+DA ..> DB : Salva e lê dados
+N ..> DB : Lê dados
+N ..> W : Devolve informação
+W ..> C : Repassa conteúdo
+@enduml

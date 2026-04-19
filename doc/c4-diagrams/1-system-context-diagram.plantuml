@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+
+person C [
+<b>Cliente</b>
+[Person]
+---
+Fornecedor dos dados.
+]
+
+rectangle W [
+<b>WhatsApp</b>
+[Software System]
+---
+Serviços do Whatsapp.
+]
+
+rectangle S [
+<b>Sakura</b>
+[Software System]
+---
+Recebe dados do cliente, 
+os processa e devolve a informação. 
+]
+
+rectangle VIA [
+<b>Vision LLM</b>
+[Software System]
+---
+Serviços de IA para imagem.
+]
+
+C ..> W : Envia imagem\ndo Cupom Fiscal
+W ..> S : Repassa conteúdo
+S ..> VIA : Transforma imagem em texto
+S ..> W : Devolve informação
+W ..> C : Repassa conteúdo
+@enduml
