@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: alvarengacarlos
+      changes:
+        - sql:
+            sql: "CREATE TYPE image_metadata_statuses AS ENUM ('PENDING_ANALYSIS', 'ANALYZED')"
+        - createTable:
+            ifNotExsits: true
+            tableName: image_metadata
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: path
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: status
+                  type: image_metadata_statuses
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: image_metadata
+        - sql:
+            sql: "DROP TYPE image_metadata_statuses"
