@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.alvarengacarlos</groupId>
+		<artifactId>sakura</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<groupId>com.alvarengacarlos.sakura</groupId>
+	<artifactId>databasemigration</artifactId>
+	<properties>
+	</properties>
+	<dependencies>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>5.0.2</version>
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+</project>
