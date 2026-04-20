@@ -1,5 +1,9 @@
 package com.alvarengacarlos.sakura.gatewayapi;
 
+import com.alvarengacarlos.sakura.common.ImageMetadataRepository;
+import com.alvarengacarlos.sakura.common.ImageMetadataEntity;
+import com.alvarengacarlos.sakura.common.ImageMetadataStatus;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,8 @@
 package com.alvarengacarlos.sakura.gatewayapi;
 
+import com.alvarengacarlos.sakura.common.ImageMetadataRepository;
+import com.alvarengacarlos.sakura.common.ImageMetadataEntity;
+
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -87,7 +90,8 @@ class WebhookServiceTest {
                     .withMaxDepth(15)
                     .set(field(WhatsAppWebhookRequestDto.Message.class, "type"), "image")
                     .set(field(WhatsAppWebhookRequestDto.ImageData.class, "mimeType"), "image/gif")
-                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"), "https://graph.facebook.com/v19.0/12345")
+                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"),
+                            "https://graph.facebook.com/v19.0/12345")
                     .create();
 
             assertThrows(NonImageMessageException.class, () -> webhookService.process(request));
@@ -114,7 +118,8 @@ class WebhookServiceTest {
                     .withMaxDepth(15)
                     .set(field(WhatsAppWebhookRequestDto.Message.class, "type"), "image")
                     .set(field(WhatsAppWebhookRequestDto.ImageData.class, "mimeType"), "image/jpeg")
-                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"), "https://graph.facebook.com/v19.0/12345")
+                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"),
+                            "https://graph.facebook.com/v19.0/12345")
                     .create();
             String messageId = request.entry().get(0).changes().get(0).value().messages().get(0).id();
 
@@ -130,7 +135,8 @@ class WebhookServiceTest {
                     .withMaxDepth(15)
                     .set(field(WhatsAppWebhookRequestDto.Message.class, "type"), "image")
                     .set(field(WhatsAppWebhookRequestDto.ImageData.class, "mimeType"), "image/png")
-                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"), "https://graph.facebook.com/v19.0/12345")
+                    .set(field(WhatsAppWebhookRequestDto.ImageData.class, "url"),
+                            "https://graph.facebook.com/v19.0/12345")
                     .create();
             String messageId = request.entry().get(0).changes().get(0).value().messages().get(0).id();
 
