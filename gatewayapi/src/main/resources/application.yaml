@@ -1,3 +1,18 @@
 spring:
   application:
     name: gatewayapi
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakura
+    username: ${DB_USERNAME:pg}
+    password: ${DB_PASSWORD:pgpw}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+sakura:
+  storage:
+    images-path: ${IMAGES_PATH:/tmp/sakura/images}
+  whatsapp:
+    access-token: ${WHATSAPP_ACCESS_TOKEN}
+    verify-token: ${WHATSAPP_VERIFY_TOKEN}
+    graph-api-base-url: ${GRAPH_API_BASE_URL:https://graph.facebook.com/}
