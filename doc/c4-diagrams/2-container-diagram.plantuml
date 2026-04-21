@@ -8,11 +8,11 @@ person C [
 Fornecedor dos dados.
 ]
 
-rectangle W [
-<b>WhatsApp</b>
+rectangle E [
+<b>Email Service</b>
 [Software System]
 ---
-Serviços do Whatsapp.
+Serviço de email.
 ]
 
 rectangle Sakura as S {
@@ -45,11 +45,10 @@ rectangle VIA [
 Serviços de IA para imagem.
 ]
 
-C ..> W : Envia imagem\ndo Cupom Fiscal
-W ..> B : Repassa conteúdo
+C ..> B : Envia imagem\ndo Cupom Fiscal
 B ..> VIA : Transforma imagem em texto
 B ..> DB : Salva e lê dados
 B ..> FS : Salva e lê dados
-B ..> W : Devolve informação
-W ..> C : Repassa conteúdo
+B ..> E : Envia email com informação
+E ..> C : Notifica usuário
 @enduml

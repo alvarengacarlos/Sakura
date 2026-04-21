@@ -8,11 +8,11 @@ person C [
 Fornecedor dos dados.
 ]
 
-rectangle W [
-<b>WhatsApp</b>
+rectangle E [
+<b>Email Service</b>
 [Software System]
 ---
-Serviços do Whatsapp.
+Serviço de email.
 ]
 
 rectangle Sakura as S {
@@ -50,7 +50,7 @@ rectangle Sakura as S {
     <b>Database</b>
     [Container: Postgres]
     ---
-    all registries.
+    Todos os registros.
     ]
 
     database FS [
@@ -68,8 +68,7 @@ rectangle VIA [
 Serviços de IA para imagem.
 ]
 
-C ..> W : Envia imagem\ndo Cupom Fiscal
-W ..> G : Repassa conteúdo
+C ..> G : Envia imagem\ndo Cupom Fiscal
 G ..> DB : Salva metadados do conteúdo
 G ..> FS : Salva contéudo
 IA ..> DB : Salva e lê dados
@@ -77,6 +76,6 @@ IA ..> FS : Lê dados
 IA ..> VIA : Transforma imagem em texto usando
 DA ..> DB : Salva e lê dados
 N ..> DB : Lê dados
-N ..> W : Devolve informação
-W ..> C : Repassa conteúdo
+N ..> E : Envia email com informação
+E ..> C : Notifica usuário
 @enduml

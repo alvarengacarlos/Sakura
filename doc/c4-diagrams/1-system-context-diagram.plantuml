@@ -8,11 +8,11 @@ person C [
 Fornecedor dos dados.
 ]
 
-rectangle W [
-<b>WhatsApp</b>
+rectangle E [
+<b>Email Service</b>
 [Software System]
 ---
-Serviços do Whatsapp.
+Serviço de email.
 ]
 
 rectangle S [
@@ -30,9 +30,8 @@ rectangle VIA [
 Serviços de IA para imagem.
 ]
 
-C ..> W : Envia imagem\ndo Cupom Fiscal
-W ..> S : Repassa conteúdo
+C ..> S : Envia imagem\ndo Cupom Fiscal
 S ..> VIA : Transforma imagem em texto
-S ..> W : Devolve informação
-W ..> C : Repassa conteúdo
+S ..> E : Envia email com informação
+E ..> C : Notifica usuário
 @enduml
