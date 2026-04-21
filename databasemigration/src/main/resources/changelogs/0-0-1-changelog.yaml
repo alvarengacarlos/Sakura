@@ -96,3 +96,40 @@ databaseChangeLog:
             tableName: tax_receipt
         - sql:
             sql: "DROP TYPE payment_methods"
+
+  - changeSet:
+      id: 3
+      author: alvarengacarlos
+      changes:
+        - createTable:
+            ifNotExsits: true
+            tableName: data_analysis
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: item
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: next_purchase_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: data_analysis
