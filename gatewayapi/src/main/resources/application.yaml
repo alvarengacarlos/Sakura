@@ -12,7 +12,6 @@ spring:
 sakura:
   storage:
     images-path: ${IMAGES_PATH:/tmp/sakura/images}
-  whatsapp:
-    access-token: ${WHATSAPP_ACCESS_TOKEN}
-    verify-token: ${WHATSAPP_VERIFY_TOKEN}
-    graph-api-base-url: ${GRAPH_API_BASE_URL:https://graph.facebook.com/}
+  security:
+    username: ${UPLOAD_USERNAME:admin}
+    password: ${UPLOAD_PASSWORD:changeme}
