@@ -1,3 +1,17 @@
 spring:
   application:
     name: imageanalyzer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakura
+    username: ${DB_USERNAME:pg}
+    password: ${DB_PASSWORD:pgpw}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+job:
+  cron: ${JOB_CRON:"0 0 12 * * *"}
+
+sakura:
+  anthropic:
+    model: ${ANTHROPIC_MODEL:claude-haiku-4-5-20251001}

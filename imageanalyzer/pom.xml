@@ -12,6 +12,16 @@
 	<properties>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.alvarengacarlos.sakura</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.anthropic</groupId>
+			<artifactId>anthropic-java</artifactId>
+			<version>2.26.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
