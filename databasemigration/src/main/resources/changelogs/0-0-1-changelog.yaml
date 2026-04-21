@@ -40,3 +40,59 @@ databaseChangeLog:
             tableName: image_metadata
         - sql:
             sql: "DROP TYPE image_metadata_statuses"
+
+  - changeSet:
+      id: 2
+      author: alvarengacarlos
+      changes:
+        - sql:
+            - sql: "CREATE TYPE payment_methods AS ENUM ('CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'PIX')"
+        - createTable:
+            ifNotExsits: true
+            tableName: tax_receipt
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: MONEY
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_method
+                  type: payment_methods
+                  constraints:
+                    nullable: false
+              - column:
+                  name: where
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: when
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: tax_receipt
+        - sql:
+            sql: "DROP TYPE payment_methods"
