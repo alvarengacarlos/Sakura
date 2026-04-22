@@ -2,7 +2,7 @@ spring:
   application:
     name: notifier
   datasource:
-    url: jdbc:postgresql://localhost:5432/sakura
+    url: ${JDBC_URL:jdbc:postgresql://localhost:5432/sakura}
     username: ${DB_USERNAME:pg}
     password: ${DB_PASSWORD:pgpw}
   jpa:
