@@ -10,7 +10,7 @@ spring:
       ddl-auto: validate
 
 job:
-  cron: ${JOB_CRON:"0 0 12 * * *"}
+  cron: ${JOB_CRON:0 0 12 * * *}
 
 sakura:
   anthropic:
