@@ -1,3 +1,27 @@
 spring:
   application:
     name: notifier
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakura
+    username: ${DB_USERNAME:pg}
+    password: ${DB_PASSWORD:pgpw}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+job:
+  cron: ${JOB_CRON:0 0 6 * * *}
+
+notifier:
+  recipient-email: ${RECIPIENT_EMAIL}
