@@ -3,7 +3,7 @@
 Gerador de lista de compras com base em compras do passado.
 
 ## Implantação
-> **Requisitos:** Docker Compose, Linux, Java 25
+> **Requisitos:** Docker Compose, Linux
 
 Copie o arquivo `example.env` e renomeie a cópia para `.env`.
 
