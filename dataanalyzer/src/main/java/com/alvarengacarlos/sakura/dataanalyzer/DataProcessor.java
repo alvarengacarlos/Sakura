@@ -33,6 +33,9 @@ public class DataProcessor {
     @Value("${sakura.anthropic.model}")
     private String model;
 
+    @Value("${sakura.analysis.days}")
+    private int analysisDays;
+
     @Transactional
     public void processData(List<TaxReceiptEntity> taxReceipts) {
         PredictionResponse response = analyzeData(taxReceipts);
@@ -91,8 +94,8 @@ public class DataProcessor {
                 - quantity: expected quantity as an integer
                 - nextPurchaseDate: predicted purchase date in ISO-8601 format (YYYY-MM-DD)
 
-                Purchase history (last 30 days):
-                """ + formattedData;
+                Purchase history (last %d days):
+                """.formatted(analysisDays) + formattedData;
     }
 
     private String formatTaxReceipts(List<TaxReceiptEntity> taxReceipts) {

@@ -5,6 +5,7 @@ import com.alvarengacarlos.sakura.common.TaxReceiptRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
@@ -29,6 +30,9 @@ public class Application {
     @Autowired
     private DataProcessor dataAnalyzer;
 
+    @Value("${sakura.analysis.days}")
+    private int analysisDays;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -38,7 +42,7 @@ public class Application {
         log.info("Data analyzer job started");
         
         List<TaxReceiptEntity> taxReceipts = getTaxReceipts();
-        log.info("Found {} receipt(s) in the last 30 days", taxReceipts.size());
+        log.info("Found {} receipt(s) in the last {} days", taxReceipts.size(), analysisDays);
 
         if (taxReceipts.size() == 0) {
             log.info("No data to process, job finished");
@@ -57,8 +61,8 @@ public class Application {
     }
 
     private List<TaxReceiptEntity> getTaxReceipts() {
-        log.info("Getting tax receipts from the last 30 days");
-        List<TaxReceiptEntity> receipts = taxReceiptRepository.findByTransactionTimeAfter(LocalDateTime.now().minusDays(30));
+        log.info("Getting tax receipts from the last {} days", analysisDays);
+        List<TaxReceiptEntity> receipts = taxReceiptRepository.findByTransactionTimeAfter(LocalDateTime.now().minusDays(analysisDays));
         log.info("Successfully got");
         return receipts;
     }

@@ -15,3 +15,5 @@ job:
 sakura:
   anthropic:
     model: ${ANTHROPIC_MODEL:claude-haiku-4-5-20251001}
+  analysis:
+    days: ${ANALYSIS_DAYS:30}
