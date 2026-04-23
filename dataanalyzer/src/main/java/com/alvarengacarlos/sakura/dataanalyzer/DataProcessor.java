@@ -100,11 +100,9 @@ public class DataProcessor {
 
         StringBuilder sb = new StringBuilder();
         for (TaxReceiptEntity taxReceipt : taxReceipts) {
-            sb.append("- %s, qty: %s, price: %s, store: %s, date: %s\n".formatted(
+            sb.append("- %s, qty: %s, date: %s\n".formatted(
                 taxReceipt.getDescription(),
                 taxReceipt.getQuantity(),
-                taxReceipt.getPrice(),
-                taxReceipt.getStoreName(),
                 taxReceipt.getTransactionTime()
             ));
         }
