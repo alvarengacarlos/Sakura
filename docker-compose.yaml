@@ -1,14 +1,101 @@
+networks:
+  sakura_net:
+
 volumes:
   postgres_vol:
+  sharedfs_vol:
+
+secrets:
+  db_username_secret:
+    environment: POSTGRES_USER
+  db_password_secret:
+    environment: POSTGRES_PASSWORD
+
+x-base: &base
+  networks:
+    - sakura_net
 
 services:
   postgres:
+    <<: *base
     image: postgres:17
     environment:
-      POSTGRES_USER: pg
-      POSTGRES_PASSWORD: pgpw
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: sakura
     ports:
       - 5432:5432
     volumes:
       - postgres_vol:/var/lib/postgresql
+
+  databasemigration:
+    <<: *base
+    build:
+      context: .
+      target: databasemigration
+      args:
+        - JDBC_URL=${JDBC_URL}
+      secrets:
+        - db_username_secret
+        - db_password_secret
+
+  gatewayapi:
+    <<: *base
+    build:
+      context: .
+      target: gatewayapi
+    environment:
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - JDBC_URL=${JDBC_URL}
+      - IMAGES_PATH=${GA_IMAGES_PATH}
+      - UPLOAD_USERNAME=${GA_UPLOAD_USERNAME}
+      - UPLOAD_PASSWORD=${GA_UPLOAD_PASSWORD}
+    ports:
+      - 8000:8080
+    volumes:
+      - sharedfs_vol:/mnt/sharedfs
+
+  imageanalyzer:
+    <<: *base
+    build:
+      context: .
+      target: imageanalyzer
+    environment:
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - JDBC_URL=${JDBC_URL}
+      - JOB_CRON=${IA_JOB_CRON}
+      - ANTHROPIC_MODEL=${IA_ANTHROPIC_MODEL}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - sharedfs_vol:/mnt/sharedfs
+
+  dataanalyzer:
+    <<: *base
+    build:
+      context: .
+      target: dataanalyzer
+    environment:
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - JDBC_URL=${JDBC_URL}
+      - JOB_CRON=${DA_JOB_CRON}
+      - ANTHROPIC_MODEL=${DA_ANTHROPIC_MODEL}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+
+  notifier:
+    <<: *base
+    build:
+      context: .
+      target: notifier
+    environment:
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - JDBC_URL=${JDBC_URL}
+      - MAIL_HOST=${N_MAIL_HOST}
+      - MAIL_PORT=${N_MAIL_PORT}
+      - MAIL_USERNAME=${N_MAIL_USERNAME}
+      - MAIL_PASSWORD=${N_MAIL_PASSWORD}
+      - JOB_CRON=${N_JOB_CRON}
+      - RECIPIENT_EMAIL=${N_RECIPIENT_EMAIL}
