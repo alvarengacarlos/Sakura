@@ -24,14 +24,14 @@ os processa e devolve a informação.
 ]
 
 rectangle VIA [
-<b>Vision LLM</b>
+<b>LLM</b>
 [Software System]
 ---
 Serviços de IA para imagem.
 ]
 
 C ..> S : Envia imagem\ndo Cupom Fiscal
-S ..> VIA : Transforma imagem em texto
+S ..> VIA : Transforma imagem em texto e faz previsão
 S ..> E : Envia email com informação
 E ..> C : Notifica usuário
 @enduml

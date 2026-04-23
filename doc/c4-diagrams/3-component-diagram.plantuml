@@ -62,7 +62,7 @@ rectangle Sakura as S {
 }
 
 rectangle VIA [
-<b>Vision LLM</b>
+<b>LLM</b>
 [Software System]
 ---
 Serviços de IA para imagem.
@@ -75,6 +75,7 @@ IA ..> DB : Salva e lê dados
 IA ..> FS : Lê dados
 IA ..> VIA : Transforma imagem em texto usando
 DA ..> DB : Salva e lê dados
+DA ..> VIA : Faz previsão
 N ..> DB : Lê dados
 N ..> E : Envia email com informação
 E ..> C : Notifica usuário

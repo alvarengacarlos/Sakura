@@ -39,14 +39,14 @@ rectangle Sakura as S {
 }
 
 rectangle VIA [
-<b>Vision LLM</b>
+<b>LLM</b>
 [Software System]
 ---
 Serviços de IA para imagem.
 ]
 
 C ..> B : Envia imagem\ndo Cupom Fiscal
-B ..> VIA : Transforma imagem em texto
+B ..> VIA : Transforma imagem em texto e faz previsão
 B ..> DB : Salva e lê dados
 B ..> FS : Salva e lê dados
 B ..> E : Envia email com informação
