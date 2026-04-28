@@ -31,7 +31,9 @@ public class TaxReceiptEntity {
 
     private String description;
 
-    private int quantity;
+    private double quantity;
+
+    private String measureUnit;
 
     @Column(name = "price", columnDefinition = "MONEY")
     @ColumnTransformer(read = "price::numeric")
