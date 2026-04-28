@@ -63,7 +63,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: quantity
-                  type: INT
+                  type: FLOAT8
+                  constraints:
+                    nullable: false
+              - column:
+                  name: measure_unit
+                  type: VARCHAR
                   constraints:
                     nullable: false
               - column:
