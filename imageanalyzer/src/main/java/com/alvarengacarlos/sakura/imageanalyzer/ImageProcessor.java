@@ -63,19 +63,24 @@ public class ImageProcessor {
             return;
         }
 
-        TaxReceiptEntity receipt = TaxReceiptEntity.builder()
-                .id(UUID.randomUUID())
-                .description(response.description)
-                .quantity(response.quantity)
-                .price(response.price)
-                .paymentMethod(PaymentMethod.valueOf(response.paymentMethod))
-                .storeName(response.where)
-                .transactionTime(LocalDateTime.parse(response.when))
-                .createdAt(LocalDateTime.now())
-                .build();
+        log.info("Preparing tax receipts");
+        List<TaxReceiptEntity> receipts = response.items.stream()
+                .map(item -> TaxReceiptEntity.builder()
+                        .id(UUID.randomUUID())
+                        .description(item.description)
+                        .quantity(item.quantity)
+                        .measureUnit(item.measureUnit)
+                        .price(item.price)
+                        .paymentMethod(PaymentMethod.valueOf(item.paymentMethod))
+                        .storeName(item.where)
+                        .transactionTime(LocalDateTime.parse(item.when))
+                        .createdAt(LocalDateTime.now())
+                        .build())
+                .toList();
+        log.info("Successfully prepared");
 
-        log.info("Saving tax receipt on database");
-        taxReceiptRepository.save(receipt);
+        log.info("Saving tax receipt items on database");
+        taxReceiptRepository.saveAll(receipts);
         log.info("Successfully saved");
 
         log.info("Updating image metadata status to analyzed on database");
@@ -94,7 +99,7 @@ public class ImageProcessor {
 
         StructuredMessageCreateParams<AnalysisResponse> params = MessageCreateParams.builder()
                 .model(model)
-                .maxTokens(1024L)
+                .maxTokens(4096L)
                 .addUserMessageOfBlockParams(List.of(
                         ContentBlockParam.ofImage(ImageBlockParam.builder()
                                 .source(ImageBlockParam.Source.ofBase64(Base64ImageSource.builder()
@@ -162,18 +167,18 @@ public class ImageProcessor {
 
                 Analyze the provided image.
 
-                Set isTaxReceipt to true only if the image is a Brazilian "Cupom Fiscal" \
-                (a retail/service tax receipt). Otherwise set it to false and leave all other \
+                Set isTaxReceipt to true only if the image is a Brazilian "Cupom Fiscal"
+                (a retail/service tax receipt). Otherwise set it to false and leave all other
                 fields empty.
 
-                If it IS a Cupom Fiscal, extract:
-                - description: main item or summary of items purchased
-                - quantity: total number of items as an integer
-                - price: total amount paid as a decimal (no currency symbols)
-                - paymentMethod: map "dinheiro" -> CASH, "crédito"/"cartão de crédito" -> CREDIT_CARD, \
-                "débito"/"cartão de débito" -> DEBIT_CARD, "pix" -> PIX. Use CASH if not identifiable.
-                - where: name of the establishment
-                - when: transaction date/time in ISO-8601 format (use T00:00:00 if time is not visible)
+                If it IS a Cupom Fiscal, populate items with one entry per product line item. For each item extract:
+                - description: product name (ITEM DESCRICAO).
+                - quantity: quantity as a decimal number; Brazilian receipts use comma (,) as the decimal separator (e.g. "1,5" means 1.5) — always output using dot (.) as the decimal separator. Eg: 1.5 KG = 1.5, 1 PACOTE = 1, 1 UNID = 1, 1 MCO = 1, 1.5 LT = 1.5, 1 CART = 1.
+                - measureUnit: unit of measurement of the quantity as a string. E.g: KG, 1 PACOTE = PACOTE, 1 UNID = UNID, 1 MCO = MCO, 1.5 LT = LT, 1 CART = CART.
+                - price: price of this item as a decimal (no currency symbols); Brazilian receipts use comma (,) as the decimal separator (e.g. "1,50" means 1.50) — always output using dot (.) as the decimal separator.
+                - paymentMethod: map "dinheiro" -> CASH, "crédito"/"cartão de crédito" -> CREDIT_CARD, "débito"/"cartão de débito" -> DEBIT_CARD, "pix" -> PIX. Use CASH if not identifiable. Repeat the same value for every item.
+                - where: name of the establishment. Repeat the same value for every item.
+                - when: transaction date/time in ISO-8601 format (use yyyy-mm-ddT00:00:00 if time is not visible). Repeat the same value for every item.
                 """;
     }
 }
