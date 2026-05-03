@@ -28,6 +28,8 @@ public class DataAnalysisEntity {
 
     private int quantity;
 
+    private String measureUnit;
+
     @Column(name = "next_purchase_date")
     private LocalDate nextPurchaseDate;
 
