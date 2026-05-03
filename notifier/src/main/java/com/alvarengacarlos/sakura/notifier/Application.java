@@ -88,9 +88,10 @@ public class Application {
 
         StringBuilder sb = new StringBuilder("Items to purchase today:\n\n");
         for (DataAnalysisEntity record : records) {
-            sb.append("- %s, qty: %d\n".formatted(
+            sb.append("- %s, qty: %d, unit: %s\n".formatted(
                 record.getItem(),
-                record.getQuantity()
+                record.getQuantity(),
+                record.getMeasureUnit()
             ));
         }
 
