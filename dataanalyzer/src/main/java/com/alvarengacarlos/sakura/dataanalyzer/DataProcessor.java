@@ -45,6 +45,7 @@ public class DataProcessor {
                         .id(UUID.randomUUID())
                         .item(p.item)
                         .quantity(p.quantity)
+                        .measureUnit(p.measureUnit)
                         .nextPurchaseDate(LocalDate.parse(p.nextPurchaseDate))
                         .createdAt(LocalDateTime.now())
                         .build())
@@ -92,6 +93,7 @@ public class DataProcessor {
                 For each predicted item, provide:
                 - item: the product or item name
                 - quantity: expected quantity as an integer
+                - measureUnit: the unit of measurement (e.g. KG, PACOTE, UNID, MCO, LT, CART)
                 - nextPurchaseDate: predicted purchase date in ISO-8601 format (YYYY-MM-DD)
 
                 Purchase history (last %d days):
@@ -103,9 +105,10 @@ public class DataProcessor {
 
         StringBuilder sb = new StringBuilder();
         for (TaxReceiptEntity taxReceipt : taxReceipts) {
-            sb.append("- %s, qty: %s, date: %s\n".formatted(
+            sb.append("- %s, qty: %s %s, date: %s\n".formatted(
                 taxReceipt.getDescription(),
                 taxReceipt.getQuantity(),
+                taxReceipt.getMeasureUnit(),
                 taxReceipt.getTransactionTime()
             ));
         }

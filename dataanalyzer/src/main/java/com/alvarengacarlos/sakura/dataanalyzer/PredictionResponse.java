@@ -9,6 +9,7 @@ public class PredictionResponse {
     public static class PredictionItem {
         public String item;
         public Integer quantity;
+        public String measureUnit;
         public String nextPurchaseDate;
     }
 }
