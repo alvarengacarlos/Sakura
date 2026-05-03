@@ -6,7 +6,7 @@ databaseChangeLog:
         - sql:
             sql: "CREATE TYPE image_metadata_statuses AS ENUM ('PENDING_ANALYSIS', 'ANALYZED')"
         - createTable:
-            ifNotExsits: true
+            ifNotExists: true
             tableName: image_metadata
             columns:
               - column:
@@ -46,9 +46,9 @@ databaseChangeLog:
       author: alvarengacarlos
       changes:
         - sql:
-            - sql: "CREATE TYPE payment_methods AS ENUM ('CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'PIX')"
+            sql: "CREATE TYPE payment_methods AS ENUM ('CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'PIX')"
         - createTable:
-            ifNotExsits: true
+            ifNotExists: true
             tableName: tax_receipt
             columns:
               - column:
@@ -107,7 +107,7 @@ databaseChangeLog:
       author: alvarengacarlos
       changes:
         - createTable:
-            ifNotExsits: true
+            ifNotExists: true
             tableName: data_analysis
             columns:
               - column:
@@ -123,6 +123,11 @@ databaseChangeLog:
               - column:
                   name: quantity
                   type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: measure_unit
+                  type: VARCHAR
                   constraints:
                     nullable: false
               - column:
